@@ -1,14 +1,32 @@
 'use strict'
 const path = require('path')
 const consola = require('consola')
-const feathers = require('feathers')
-const configuration = require('feathers-configuration')
+
+// Check configuration
+const conf_path = path.join(__dirname, './config')
+console.log('Configuration:', conf_path)
+process.env['NODE_CONFIG_DIR'] = conf_path
+
+const feathers = require('@feathersjs/feathers')
+const configuration = require('@feathersjs/configuration')
+const express = require('@feathersjs/express')
 const middleware = require('./middleware')
 
-const app = feathers()
+// console.log('Conectando neo4j...')
+// var neo4j = require('neo4j-driver').v1;
+// var driver = neo4j.driver(process.env.URL_NEO4J || "bolt://localhost", neo4j.auth.basic(process.env.USER_NEO4J || 'neo4j', process.env.PASSWORD_NEO4J || 'admin'));
+// console.log('Neo4j connected!')
+// global.neo4jDriver = driver
 
-app.configure(configuration(path.join(__dirname, './')))
+const app = express(feathers())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+
+app
+  .configure(configuration())
+  .configure(express.rest())
   .configure(middleware)
+  .configure(require('./services'))
 
 const host = app.get('host')
 const port = app.get('port')

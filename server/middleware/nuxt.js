@@ -18,6 +18,19 @@ if (config.dev) {
 }
 
 // Add nuxt.js middleware
-module.exports = function (req, res) {
-  nuxt.render(req, res)
+// module.exports = function (req, res) {
+//   nuxt.render(req, res)
+// }
+
+// Add nuxt.js middleware
+module.exports = function (req, res, next) {
+  switch (req.accepts('html', 'json')) {
+    case 'json': {
+      next();
+      break;
+    }
+    default: {
+      nuxt.render(req, res, next);
+    }
+  }
 }
