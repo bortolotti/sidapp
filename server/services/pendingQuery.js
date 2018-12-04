@@ -6,15 +6,31 @@ var feathersApp = null;
 module.exports = {
     /* Header-Param: Accept: application/json */
     async create(params) {
-/*
-    "databaseConnectionSettings" : {
-        "user" : "tasy",
-        "password" : "tasy",
-        "connectionString" : "vm-oracle:1521/projjetta"
-    }
-*/    
-        console.log(params)
-
+        /*
+        
+            "databaseConnectionSettings" : {
+                "user" : "tasy",
+                "password" : "tasy",
+                "connectionString" : "vm-oracle:1521/projjetta"
+            }
+-> Cassandra            
+CREATE KEYSPACE SID_DW WITH REPLICATION = { 
+'class' : 'SimpleStrategy', 
+'replication_factor' : 1 
+};
+  
+USE system;
+USE sid_dw;
+DROP TABLE IND001;
+CREATE TABLE IF NOT EXISTS IND001 ( 
+   id text PRIMARY KEY, 
+   lastname text, 
+   firstname text,
+   code text,
+   data map<text, text> );
+select * from ind001
+insert into ind001 (id, lastname, firstname, code, data) values ('ddddddddd2', 'birt', 'carlos', 'code', { 'field' : 'value' })
+        */
         if (params != null && params.length > 0) {
 
             params.forEach(async function (v, i) {
@@ -53,43 +69,12 @@ module.exports = {
 
         for await (const q of QueryModel.find()) {
             const regisCodeVar = await redisClient.getAsync(q.code)
-            console.log(regisCodeVar)
             if (regisCodeVar == null) 
                 data.push(q) /* Caso não possua variável pendente no redis está na hora de atualizar os dados */
         }
 
         return data
 
-        // return queries.exec().then(
-        //     q => {
-
-        //         var data = new Array()
-
-        //         q.forEach(e => {
-        //             const regisCodeVar = await redisClient.get(e.code)
-        //             if (regisCodeVar == null)
-        //                 data.push(e)
-
-        //             // redisClient.get("DDDD", function (err, reply) {
-        //             //     console.log("Entrou redis")
-        //             //     // if (reply == null) {
-        //             //     //     data.push(e)
-        //             //     // }
-        //             // })
-
-        //             // if (v == null) {
-        //             //     data.push(e)
-        //             //     redisClient.set(e.code, e.sqlQuery, function (err, data) {
-        //             //         if (err) return
-        //             //         redisClient.expire(e.code, e.expireMinutes * 60)
-        //             //     })
-        //             // }
-                        
-        //         })
-
-        //         return data
-        //     }
-        // )
 
     },
     setup(app, path) {

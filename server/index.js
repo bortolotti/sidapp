@@ -16,13 +16,13 @@ const middleware = require('./middleware')
 const redis = require('redis')
 const bluebird = require('bluebird')
 bluebird.promisifyAll(redis)
-
 const client = redis.createClient()
-
-// const {promisify} = require('util');
-// const getAsync = promisify(client.get).bind(client);
-
 global.redisClient = client
+
+/* Configurando o cassandra */
+const cassandra = require('cassandra-driver');
+const cassandraClient = new cassandra.Client({ contactPoints: ['h1', 'h2'], localDataCenter: 'datacenter1', keyspace: 'sid_dw' });
+global.cassandraClient = cassandraClient
 
 // console.log('Conectando neo4j...')
 // var neo4j = require('neo4j-driver').v1;
