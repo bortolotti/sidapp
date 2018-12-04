@@ -26,7 +26,22 @@
           v-model="query.sqlQuery"
           label="Query"
           rows="3" />
+
+        <v-text-field
+          v-model="query.sqlConnection.connectionString"
+          label="SQL Connection String"
+          type="text" />          
         
+        <v-text-field
+          v-model="query.sqlConnection.user"
+          label="SQL User"
+          type="text" />          
+
+        <v-text-field
+          v-model="query.sqlConnection.password"
+          label="SQL Password"
+          type="password" />
+
         <v-text-field
           v-model="query.expireMinutes"
           label="Expire Cache (Minutes)"
@@ -125,8 +140,13 @@ export default {
           code : '',
           name : '',
           sqlQuery : '',
-          expireMinutes : 10,
-          lastUpdate : null
+          expireMinutes : 2,
+          lastUpdate : null,
+          sqlConnection : {
+            connectionString: '',
+            user: '',
+            password: ''  
+          }
       }
     }
   },
@@ -173,8 +193,13 @@ export default {
           code : '',
           name : '',
           sqlQuery : '',
-          expireMinutes : 10,
-          lastUpdate : null
+          expireMinutes : 2,
+          lastUpdate : null,
+          sqlConnection : {
+            connectionString: '',
+            user: '',
+            password: ''  
+          }          
         }
     },
 
@@ -200,6 +225,28 @@ export default {
 
       if ((this.query.sqlQuery || '') == '') {
           alert('SQL query is required')
+          return
+      }
+
+      var sqlConnection = this.query.sqlConnection
+
+      if (sqlConnection == null) {
+          alert('SQL connection information is required')
+          return
+      }
+
+      if ((sqlConnection.connectionString || '') == '') {
+          alert('SQL connection string is required')
+          return
+      }
+
+      if ((sqlConnection.user || '') == '') {
+          alert('SQL connection user is required')
+          return
+      }
+      
+      if ((sqlConnection.password || '') == '') {
+          alert('SQL connection password is required')
           return
       }
 

@@ -15,6 +15,20 @@ const QuerySchema = new Schema({
     type: String,
     required: true
   },
+  sqlConnection: {
+    connectionString: {
+      type: String,
+      require: true
+    },
+    user: {
+      type: String,
+      require: true
+    },
+    password: {
+      type: String,
+      require: true
+    }
+  },
   expireMinutes: {
     type: Number,
     required: true
