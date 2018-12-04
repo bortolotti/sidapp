@@ -27,6 +27,4 @@ const QuerySchema = new Schema({
 
 const Model = mongoose.model('Query', QuerySchema);
 
-var queryService = service({ Model })
-
-module.exports = queryService
+module.exports = service({ Model })
