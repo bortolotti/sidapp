@@ -29,6 +29,16 @@ const QuerySchema = new Schema({
       require: true
     }
   },
+  dataRepository: {
+    createTableScript: {
+      type: String,
+      require: false
+    },
+    insertScript: {
+      type: String,
+      require: false
+    }
+  },
   expireMinutes: {
     type: Number,
     required: true

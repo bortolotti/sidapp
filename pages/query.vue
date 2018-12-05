@@ -47,6 +47,16 @@
           label="Expire Cache (Minutes)"
           type="number" />
 
+        <v-textarea
+          v-model="query.dataRepository.createTableScript"
+          label="Create Table Script"
+          rows="3" />
+
+        <v-textarea
+          v-model="query.dataRepository.insertScript"
+          label="Insert Script"
+          rows="3" />
+
         <v-btn v-on:click="addOrUpdateQuery" round color="primary" dark>Save</v-btn>
         <v-btn v-on:click="clear" round dark>Clear</v-btn>
 
@@ -146,6 +156,10 @@ export default {
             connectionString: '',
             user: '',
             password: ''  
+          },
+          dataRepository : {
+            createTableScript : '',
+            insertScript: ''
           }
       }
     }
@@ -199,7 +213,11 @@ export default {
             connectionString: '',
             user: '',
             password: ''  
-          }          
+          },
+          dataRepository : {
+            createTableScript : '',
+            insertScript: ''
+          }
         }
     },
 
@@ -255,21 +273,37 @@ export default {
           return
       }
 
-      console.log(this.query)
+      var dataRepository = this.query.dataRepository
+
+      if (dataRepository == null) {
+          alert('Data repository information is required')
+          return
+      }
+
+      if ((dataRepository.createTableScript || '') == '') {
+          alert('Create table script is required')
+          return
+      }
+
+      if ((dataRepository.insertScript || '') == '') {
+          alert('Insert script is required')
+          return
+      }
 
       if (newQuery)
         this.$axios.post('/query', this.query)
             .then(result => {
-            console.log('Query was been created:', result.data)
-            this.queries.push(result.data)
-            this.clear()
+              console.log('Query was been created:', result.data)
+              this.queries.push(result.data)
+              this.clear()
             })
             .catch(error => console.error('Failed to create this query:', error))
+
       else
         this.$axios.put('/query', this.query)
             .then(result => {
-                console.log('Query was been updated:', result.data)
-                this.clear()
+              console.log('Query was been updated:', result.data)
+              this.clear()
             })
             .catch(error => console.error('Failed to update this query:', error))
 

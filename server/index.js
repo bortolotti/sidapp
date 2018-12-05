@@ -21,14 +21,10 @@ global.redisClient = client
 
 /* Configurando o cassandra */
 const cassandra = require('cassandra-driver');
-const cassandraClient = new cassandra.Client({ contactPoints: ['h1', 'h2'], localDataCenter: 'datacenter1', keyspace: 'sid_dw' });
+bluebird.promisifyAll(cassandra)
+const PlainTextAuthProvider = cassandra.auth.PlainTextAuthProvider;
+const cassandraClient = new cassandra.Client({ keyspace: 'sid_dw', contactPoints:['127.0.0.1:9042'],  authProvider: new PlainTextAuthProvider('cassandra', 'cassandra')})
 global.cassandraClient = cassandraClient
-
-// console.log('Conectando neo4j...')
-// var neo4j = require('neo4j-driver').v1;
-// var driver = neo4j.driver(process.env.URL_NEO4J || "bolt://localhost", neo4j.auth.basic(process.env.USER_NEO4J || 'neo4j', process.env.PASSWORD_NEO4J || 'admin'));
-// console.log('Neo4j connected!')
-// global.neo4jDriver = driver
 
 const app = express(feathers())
 app.use(express.json())
