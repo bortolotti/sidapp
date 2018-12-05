@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const QuerySchema = new Schema({
   code: {
     type: String,
+    unique: true,
     required: true
   },
   name: {
@@ -47,7 +48,9 @@ const QuerySchema = new Schema({
       type: Date,
       required: false
   }
-});
+}, { id: true });
+
+QuerySchema.set('id', true)
 
 const Model = mongoose.model('Query', QuerySchema);
 

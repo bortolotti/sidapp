@@ -1,0 +1,54 @@
+{ 
+    "_id" : ObjectId("5c07b4ba7e9ad9453c89bebb"), 
+    "code" : "IND001", 
+    "name" : "Carga de domínios", 
+    "sqlQuery" : "SELECT CD_DOMINIO AS COD, DS_DOMINIO as DES FROM DOMINIO", 
+    "expireMinutes" : NumberInt(2), 
+    "lastUpdate" : null, 
+    "sqlConnection" : {
+        "connectionString" : "vm-oracle:1521/projjetta", 
+        "user" : "tasy", 
+        "password" : "tasy"
+    }, 
+    "dataRepository" : {
+        "createTableScript" : "CREATE TABLE IF NOT EXISTS T_DOMINIO (\n\tCOD INT PRIMARY KEY,\n\tDES TEXT\n)", 
+        "insertScript" : "INSERT INTO T_DOMINIO (COD, DES) VALUES (?, ?)"
+    }, 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5c07eaca4b63b615583c470d"), 
+    "code" : "QRY001", 
+    "name" : "Convênios", 
+    "sqlQuery" : "SELECT CD_CONVENIO AS COD, DS_CONVENIO AS DES FROM CONVENIO", 
+    "expireMinutes" : NumberInt(2), 
+    "lastUpdate" : null, 
+    "sqlConnection" : {
+        "connectionString" : "vm-oracle:1521/projjetta", 
+        "user" : "tasy", 
+        "password" : "tasy"
+    }, 
+    "dataRepository" : {
+        "createTableScript" : "CREATE TABLE IF NOT EXISTS T_CONVENIO (\n   COD INT PRIMARY KEY,\n   DES TEXT\n)", 
+        "insertScript" : "INSERT INTO T_CONVENIO (COD, DES) VALUES (?, ?)"
+    }, 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5c07f596303626483c3b0014"), 
+    "code" : "IND002", 
+    "name" : "Atendimentos por Período", 
+    "sqlQuery" : "SELECT TO_CHAR(TO_DATE(TRUNC(DT_ENTRADA, 'YYYY')), 'YYYY-MM-DD') AS DT_ATENDIMENTO, COUNT(1) AS QT_ATENDIMENTO FROM ATENDIMENTO_PACIENTE GROUP BY TRUNC(DT_ENTRADA, 'YYYY')", 
+    "expireMinutes" : NumberInt(1), 
+    "lastUpdate" : null, 
+    "sqlConnection" : {
+        "connectionString" : "vm-oracle:1521/projjetta", 
+        "user" : "tasy", 
+        "password" : "tasy"
+    }, 
+    "dataRepository" : {
+        "createTableScript" : "CREATE TABLE IF NOT EXISTS T_ATENDIMENTO (\n  DT_ATENDIMENTO DATE PRIMARY KEY,\n  QT_ATENDIMENTO INT\n)", 
+        "insertScript" : "INSERT INTO T_ATENDIMENTO (DT_ATENDIMENTO, QT_ATENDIMENTO) VALUES (?, ?)"
+    }, 
+    "__v" : NumberInt(0)
+}
